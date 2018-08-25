@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script>
+			function jsAjaxGet(){
+			//创建ajax请求对象
+				var xhr = "";
+				//除了 ie5 ie6以外，其他的浏览器都是是此对象
+				try{//捕获 ie5或ie6不能创建XMLHttpRequest对象 的写法  python  try except
+					xhr = new XMLHttpRequest();
+				}catch(e){//捕获异常了。说明当前是 ie5或者ie6浏览器  要进行浏览器兼容，创建对应的对象
+					xhr = new ActiveXObject("Microsoft.XMLHttp");
+				}
+				//打开网络请求
+				/*第一个参数：请求方式   get  post
+				 * 第二个参数：url  资源路径
+				 * 第三个参数：boolean   true异步   false同步
+				 */
+				xhr.open("get","http://127.0.0.1/jsAjaxGet.php?username=sam&age=20&password=123456",true);
+				//发送
+				xhr.send();
+				//对请求和响应的监听
+				/*readyState有四个值:1 请求发送 2服务接收到请求 3服务器在处理请求 4服务器响应成功
+				 * status  有很多值：200表示成功  404资源路劲错误（用户操作不当） 500服务器错误（程序员的问题）
+				 * 
+				 */
+				xhr.onreadystatechange = function(){
+					alert(xhr.readyState);
+					if(xhr.readyState == 4 && xhr.status == 200){
+						//表示响应成功，，获得服务器响应的数据    responseText表示响应的文本数据
+						document.getElementById("div1").innerText = xhr.responseText;
+					}
+				}
+			}
+		</script>
+		<style>
+			div{
+				width: 200px;
+				height: 200px;
+				background-color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<input type="button" onclick="jsAjaxGet();" value="jsAjaxGet" />
+		<div id="div1"></div>
+	</body>
+</html>
